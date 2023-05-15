@@ -32,9 +32,25 @@ class Calculator:
         self.check_types(x, y)
         return x ** y
 
+    def square_root(self, x):
+        self.check_type(x)
+        if x < 0:
+            raise ValueError("Square root of a negative number is not possible")
+        return x ** 0.5
+
+    def logarithm(self, x):
+        self.check_type(x)
+        if x <= 0:
+            raise ValueError("Logarithm of a non-positive number is not possible")
+        return math.log10(x)
+
     def check_types(self, x, y):
         if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
             raise TypeError("Parameters must be numbers")
+
+    def check_type(self, x):
+        if not isinstance(x, (int, float)):
+            raise TypeError("Parameter must be a number")
 
 
 if __name__ == "__main__":  # pragma: no cover
