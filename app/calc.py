@@ -1,7 +1,7 @@
 import app  # Importa el módulo app
 
 # Clase de excepción que se utiliza para representar errores relacionados con permisos no válidos.
-   class InvalidPermissions(Exception):
+class InvalidPermissions(Exception):
     pass
 
 class Calculator:
@@ -50,6 +50,8 @@ class Calculator:
     def check_type(self, x):
         if not isinstance(x, (int, float)):  # Verifica si x es una instancia de int o float
             raise TypeError("Parameter must be a number")  # Lanza una excepción de TypeError si el parámetro no es un número
+
+
 
 if __name__ == "__main__":  # pragma: no cover
     calc = Calculator()  # Crea una instancia de la clase Calculator
