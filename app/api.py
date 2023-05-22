@@ -70,7 +70,7 @@ def square_root(num):
     try:
         num = util.convert_to_number(num)
         return ("{}".format(math.sqrt(num)), http.client.OK, HEADERS)
-    except TypeError as e:
+    except ValueError as e:
         return (str(e), http.client.BAD_REQUEST, HEADERS)
 
 # Ruta para la operación de logaritmo
@@ -79,6 +79,6 @@ def logarithm(num):
     try:
         num = util.convert_to_number(num)
         return ("{}".format(math.log10(num)), http.client.OK, HEADERS)
-    except TypeError as e:
+    except ValueError as e:
         return (str(e), http.client.BAD_REQUEST, HEADERS)
 

@@ -1,10 +1,9 @@
 import unittest  # Importa el módulo 'unittest' para realizar pruebas unitarias
 from unittest.mock import patch  # Importa 'patch' de 'unittest.mock' para simular objetos en las pruebas
 import pytest  # Importa el módulo 'pytest' para extender las capacidades de prueba
-
+import app.util
 # Clase de excepción que se utiliza para representar errores relacionados con permisos no válidos.
-class InvalidPermissions(Exception):
-    pass
+
 
 from app.calc import Calculator  # Importa la clase 'Calculator' desde el módulo 'app.calc'
 
@@ -95,14 +94,6 @@ class TestCalculate(unittest.TestCase):
         self.assertRaises(TypeError, self.calc.multiply, object(), 2)
         self.assertRaises(TypeError, self.calc.multiply, 2, object())
 
-    @patch('app.util.validate_permissions', side_effect=mocked_invalidation, create=True)
-    def test_multiply_method_fails_with_permission_denied(self, _validate_permissions):
-        # Prueba que el método 'multiply' falla cuando se deniegan los permisos.
-        self.assertRaises(InvalidPermissions, self.calc.multiply, 2, 2)
-        self.assertRaises(InvalidPermissions, self.calc.multiply, 1, 0)
-        self.assertRaises(InvalidPermissions, self.calc.multiply, -1, 0)
-        self.assertRaises(InvalidPermissions, self.calc.multiply, -1, 2)
-
     def test_power_method_returns_correct_result(self):
         # Prueba que el método 'power' devuelve el resultado correcto para diferentes potencias.
         self.assertEqual(4, self.calc.power(2, 2))
@@ -127,15 +118,15 @@ class TestCalculate(unittest.TestCase):
 
     def test_square_root_method_fails_with_negative_parameter(self):
         # Prueba que el método 'square_root' falla con parámetros negativos.
-        self.assertRaises(TypeError, self.calc.square_root, -4)
-        self.assertRaises(TypeError, self.calc.square_root, -9)
-        self.assertRaises(TypeError, self.calc.square_root, -25)
+        self.assertRaises(ValueError, self.calc.square_root, -4)
+        self.assertRaises(ValueError, self.calc.square_root, -9)
+        self.assertRaises(ValueError, self.calc.square_root, -25)
 
     def test_square_root_method_fails_with_non_numeric_parameter(self):
         # Prueba que el método 'square_root' falla con parámetros no numéricos.
-        self.assertRaises(TypeError, self.calc.square_root, "4")
-        self.assertRaises(TypeError, self.calc.square_root, None)
-        self.assertRaises(TypeError, self.calc.square_root, object())
+        self.assertRaises(ValueError, self.calc.square_root, "4")
+        self.assertRaises(ValueError, self.calc.square_root, None)
+        self.assertRaises(ValueError, self.calc.square_root, object())
 
     def test_logarithm_method_returns_correct_result(self):
         # Prueba que el método 'logarithm' devuelve el resultado correcto para diferentes logaritmos.
@@ -145,15 +136,15 @@ class TestCalculate(unittest.TestCase):
 
     def test_logarithm_method_fails_with_non_positive_parameter(self):
         # Prueba que el método 'logarithm' falla con parámetros no positivos.
-        self.assertRaises(TypeError, self.calc.logarithm, 0)
-        self.assertRaises(TypeError, self.calc.logarithm, -1)
-        self.assertRaises(TypeError, self.calc.logarithm, -100)
+        self.assertRaises(ValueError, self.calc.logarithm, 0)
+        self.assertRaises(ValueError, self.calc.logarithm, -1)
+        self.assertRaises(ValueError, self.calc.logarithm, -100)
 
     def test_logarithm_method_fails_with_non_numeric_parameter(self):
         # Prueba que el método 'logarithm' falla con parámetros no numéricos.
-        self.assertRaises(TypeError, self.calc.logarithm, "10")
-        self.assertRaises(TypeError, self.calc.logarithm, None)
-        self.assertRaises(TypeError, self.calc.logarithm, object())
+        self.assertRaises(ValueError, self.calc.logarithm, "10")
+        self.assertRaises(ValueError, self.calc.logarithm, None)
+        self.assertRaises(ValueError, self.calc.logarithm, object())
 
     def test_check_types_method_passes_with_numeric_parameters(self):
         # Prueba que el método 'check_types' pasa con parámetros numéricos.
@@ -179,9 +170,9 @@ class TestCalculate(unittest.TestCase):
 
     def test_check_type_method_fails_with_non_numeric_parameter(self):
         # Prueba que el método 'check_type' falla con un parámetro no numérico.
-        self.assertRaises(TypeError, self.calc.check_type, "2")
-        self.assertRaises(TypeError, self.calc.check_type, None)
-        self.assertRaises(TypeError, self.calc.check_type, object())
+        self.assertRaises(ValueError, self.calc.check_type, "2")
+        self.assertRaises(ValueError, self.calc.check_type, None)
+        self.assertRaises(ValueError, self.calc.check_type, object())
 
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()

@@ -25,3 +25,4 @@ def InvalidConvertToNumber(operand):
 def validate_permissions(operation, user):
     print(f"checking permissions of {user} for operation {operation}")  # Imprime un mensaje para verificar los permisos de un usuario para una operación.
     return user == "user1"  # Devuelve True si el usuario tiene permisos ("user1"), de lo contrario, devuelve False.
+

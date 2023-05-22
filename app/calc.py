@@ -36,13 +36,13 @@ class Calculator:
     def square_root(self, x):
         self.check_type(x)  # Verifica el tipo de x
         if x < 0:
-            raise TypeError("Square root of a negative number is not possible")  # Lanza una excepción de TypeError si el número es negativo
+            raise ValueError("Square root of a negative number is not possible")  # Lanza una excepción de TypeError si el número es negativo
         return x ** 0.5
 
     def logarithm(self, x):
         self.check_type(x)  # Verifica el tipo de x
         if x <= 0:
-            raise TypeError("Logarithm of a non-positive number is not possible")  # Lanza una excepción de TypeError si el número es no positivo
+            raise ValueError("Logarithm of a non-positive number is not possible")  # Lanza una excepción de TypeError si el número es no positivo
         return math.log10(x)
 
     def check_types(self, x, y):
@@ -51,7 +51,7 @@ class Calculator:
 
     def check_type(self, x):
         if not isinstance(x, (int, float)):  # Verifica si x es una instancia de int o float
-            raise TypeError("Parameter must be a number")  # Lanza una excepción de TypeError si el parámetro no es un número
+            raise ValueError("Parameter must be a number")  # Lanza una excepción de TypeError si el parámetro no es un número
 
 
 
