@@ -2,11 +2,18 @@ import unittest  # Importa el módulo 'unittest' para realizar pruebas unitarias
 from unittest.mock import patch  # Importa 'patch' de 'unittest.mock' para simular objetos en las pruebas
 import pytest  # Importa el módulo 'pytest' para extender las capacidades de prueba
 
+# Clase de excepción que se utiliza para representar errores relacionados con permisos no válidos.
+class InvalidPermissions(Exception):
+    pass
+
 from app.calc import Calculator  # Importa la clase 'Calculator' desde el módulo 'app.calc'
 
 
 def mocked_validation(*args, **kwargs):
     return True  # Define una función 'mocked_validation' que devuelve 'True'
+
+def mocked_invalidation(*args, **kwargs):
+    return False # Define una función 'mocked_validation' que devuelve 'True'
 
 
 @pytest.mark.unit
@@ -88,10 +95,13 @@ class TestCalculate(unittest.TestCase):
         self.assertRaises(TypeError, self.calc.multiply, object(), 2)
         self.assertRaises(TypeError, self.calc.multiply, 2, object())
 
-    def test_multiply_method_fails_with_permission_denied(self):
+    @patch('app.util.validate_permissions', side_effect=mocked_invalidation, create=True)
+    def test_multiply_method_fails_with_permission_denied(self, _validate_permissions):
         # Prueba que el método 'multiply' falla cuando se deniegan los permisos.
-        with patch('app.util.validate_permissions', return_value=False):
-            self.assertRaises(InvalidPermissions, self.calc.multiply, 2, 2)
+        self.assertRaises(InvalidPermissions, self.calc.multiply, 2, 2)
+        self.assertRaises(InvalidPermissions, self.calc.multiply, 1, 0)
+        self.assertRaises(InvalidPermissions, self.calc.multiply, -1, 0)
+        self.assertRaises(InvalidPermissions, self.calc.multiply, -1, 2)
 
     def test_power_method_returns_correct_result(self):
         # Prueba que el método 'power' devuelve el resultado correcto para diferentes potencias.

@@ -1,8 +1,10 @@
 import app  # Importa el módulo app
+import math  # Módulo para realizar operaciones matemáticas
 
 # Clase de excepción que se utiliza para representar errores relacionados con permisos no válidos.
 class InvalidPermissions(Exception):
     pass
+
 
 class Calculator:
     def add(self, x, y):
