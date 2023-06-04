@@ -1,0 +1,41 @@
+pipeline {
+    agent {
+        label 'python'
+    }
+    environment {
+        IMAGE_LABEL = 'calculator-app'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building stage!'
+                sh 'make build'
+            }
+        }
+        stage('Push') {
+            when { branch 'master' }
+            steps {
+                sh 'make push'
+            }
+        }
+        stage('Unit tests') {
+            steps {
+                sh 'make test-unit'
+                archiveArtifacts artifacts: 'results/unit-result.xml', fingerprint: true
+            }
+        }
+        stage('API tests') {
+            steps {
+                sh 'make test-api'
+                archiveArtifacts artifacts: 'results/api-result.xml', fingerprint: true
+            }
+        }
+        stage('E2E tests') {
+            steps {
+                sh 'make test-e2e'
+                archiveArtifacts artifacts: 'results/e2e-result.xml', fingerprint: true
+            }
+        }
+    }
+}
+
