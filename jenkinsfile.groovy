@@ -29,7 +29,7 @@ pipeline {
         stage('E2E tests') {
             steps {
                 sh 'make test-e2e'
-                archiveArtifacts artifacts: 'results/e2e_result.xml'
+                archiveArtifacts artifacts: 'results/cypress_result.xml'
             }
         }
     }
