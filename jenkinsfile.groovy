@@ -14,11 +14,9 @@ pipeline {
                 sh 'make build'
             }
         }
-        stage('Push') {
-            when { branch 'master' }
+        stage('Run') {
             steps {
-                sh 'make push'
-            }
+                sh 'make run'            }
         }
         stage('Unit tests') {
             steps {
