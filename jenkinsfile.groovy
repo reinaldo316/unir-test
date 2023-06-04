@@ -38,6 +38,13 @@ pipeline {
             junit 'results/*_result.xml'
             cleanWs()
         }
+        success {
+            emailext (
+                to: 'reinaldo316@gmail.com',
+                subject: "Trabajo exitoso: \${JOB_NAME} - Build #\${BUILD_NUMBER}",
+                body: "El trabajo \${JOB_NAME} se ejecutó correctamente en la ejecución número \${BUILD_NUMBER}."
+            )
+        }
         failure {
             emailext (
                 to: 'reinaldo316@gmail.com',
@@ -48,4 +55,3 @@ pipeline {
         }
     }
 }
-
