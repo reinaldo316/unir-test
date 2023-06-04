@@ -17,19 +17,19 @@ pipeline {
         stage('Unit tests') {
             steps {
                 sh 'make test-unit'
-                archiveArtifacts artifacts: 'results/unit-result.xml'
+                archiveArtifacts artifacts: '**/results/unit-result.xml'
             }
         }
         stage('API tests') {
             steps {
                 sh 'make test-api'
-                archiveArtifacts artifacts: 'results/api-result.xml'
+                archiveArtifacts artifacts: '**/results/api-result.xml'
             }
         }
         stage('E2E tests') {
             steps {
                 sh 'make test-e2e'
-                archiveArtifacts artifacts: 'results/e2e-result.xml'
+                archiveArtifacts artifacts: '**/results/e2e-result.xml'
             }
         }
     }
