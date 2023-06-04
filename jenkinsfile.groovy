@@ -16,7 +16,8 @@ pipeline {
         }
         stage('Run') {
             steps {
-                sh 'make run'            }
+                sh 'make run'            
+            }
         }
         stage('Unit tests') {
             steps {
