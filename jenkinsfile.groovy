@@ -3,6 +3,11 @@ pipeline {
         label 'docker'
     }
     stages {
+        stage('Source') {
+            steps {
+                git 'https://github.com/reinaldo316/unir-test.git'
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Building stage!'
@@ -33,15 +38,19 @@ pipeline {
                 archiveArtifacts artifacts: 'results/e2e-result.xml', fingerprint: true
             }
         }
-        post {
-            failure {
-                emailext (
-                    to: 'reinaldo316@gmail.com',
-                    subject: "Falló el trabajo: \${JOB_NAME} - Build #\${BUILD_NUMBER}",
-                    body: "El trabajo \${JOB_NAME} ha fallado en la ejecución número \${BUILD_NUMBER}. Por favor, revisa los detalles.",
-                    attachLog: true
-                )
-            }
+    }
+    post {
+        always {
+            junit 'results/*_result.xml'
+            cleanWs()
+        }
+        failure {
+            emailext (
+                to: 'reinaldo316@gmail.com',
+                subject: "Falló el trabajo: \${JOB_NAME} - Build #\${BUILD_NUMBER}",
+                body: "El trabajo \${JOB_NAME} ha fallado en la ejecución número \${BUILD_NUMBER}. Por favor, revisa los detalles.",
+                attachLog: true
+            )
         }
     }
 }
