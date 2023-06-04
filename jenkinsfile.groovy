@@ -14,11 +14,6 @@ pipeline {
                 sh 'make build'
             }
         }
-        stage('Run') {
-            steps {
-                sh 'make run'            
-            }
-        }
         stage('Unit tests') {
             steps {
                 sh 'make test-unit'
